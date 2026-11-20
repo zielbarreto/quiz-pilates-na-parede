@@ -182,13 +182,22 @@ function App() {
               <div className="result-detail"><span>Desafio que quer contornar</span><strong>{result.obstacle}</strong></div>
             </div>
             <section className="included-content" aria-labelledby="included-content-title">
-              <h3 id="included-content-title">O que você recebe</h3>
-              <p className="included-content-intro">Programa em vídeo com 9 módulos, cada um com 1 aula.</p>
-              <ul>
-                <li>Comece por aqui, aquecimento e guias de Pilates iniciante e intermediário.</li>
-                <li>Guia de alimentação e módulo “Aplicativo (Novidade)”.</li>
-                <li>Três bônus: “Bumbum dos Sonhos”, “Eliminando a Flacidez” e “Eliminando a Celulite”.</li>
-              </ul>
+              <div className="included-heading">
+                <span className="included-kicker">CONTEÚDO DO PROGRAMA</span>
+                <h3 id="included-content-title">O QUE VOCÊ RECEBE</h3>
+                <p className="included-content-intro">9 módulos em vídeo, com 1 aula cada.</p>
+              </div>
+              <ol className="included-list">
+                <li><span className="included-number">01</span><span>Comece por aqui</span></li>
+                <li><span className="included-number">02</span><span>Guia de alimentação</span></li>
+                <li><span className="included-number">03</span><span>Aquecimento</span></li>
+                <li><span className="included-number">04</span><span>Guia de Pilates Iniciante</span></li>
+                <li><span className="included-number">05</span><span>Guia de Pilates Intermediário</span></li>
+                <li><span className="included-number">06</span><span>Aplicativo (Novidade)</span></li>
+                <li><span className="included-number">07</span><span>Bônus: Bumbum dos Sonhos</span></li>
+                <li><span className="included-number">08</span><span>Bônus: Eliminando a Flacidez</span></li>
+                <li><span className="included-number">09</span><span>Bônus: Eliminando a Celulite</span></li>
+              </ol>
             </section>
             <div className="program-highlight"><span className="highlight-icon"><Heart size={19} /></span><span><strong>Seu próximo passo</strong><small>Você quer conferir {result.nextStep.toLowerCase()} Na página da Cakto, avalie se o programa combina com você antes de continuar.</small></span><MoveUpRight className="highlight-arrow" size={19} /></div>
             <a
