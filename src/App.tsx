@@ -181,6 +181,15 @@ function App() {
               <div className="result-detail"><span>Frequência desejada</span><strong>{result.frequency}</strong></div>
               <div className="result-detail"><span>Desafio que quer contornar</span><strong>{result.obstacle}</strong></div>
             </div>
+            <section className="included-content" aria-labelledby="included-content-title">
+              <h3 id="included-content-title">O que você recebe</h3>
+              <p className="included-content-intro">Programa em vídeo com 9 módulos, cada um com 1 aula.</p>
+              <ul>
+                <li>Comece por aqui, aquecimento e guias de Pilates iniciante e intermediário.</li>
+                <li>Guia de alimentação e módulo “Aplicativo (Novidade)”.</li>
+                <li>Três bônus: “Bumbum dos Sonhos”, “Eliminando a Flacidez” e “Eliminando a Celulite”.</li>
+              </ul>
+            </section>
             <div className="program-highlight"><span className="highlight-icon"><Heart size={19} /></span><span><strong>Seu próximo passo</strong><small>Você quer conferir {result.nextStep.toLowerCase()} Na página da Cakto, avalie se o programa combina com você antes de continuar.</small></span><MoveUpRight className="highlight-arrow" size={19} /></div>
             <a
               className="primary-button checkout-button"
