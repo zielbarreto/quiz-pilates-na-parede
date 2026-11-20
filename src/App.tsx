@@ -15,7 +15,6 @@ function App() {
   const question = questions[questionIndex]
   const selectedOption = answers[questionIndex]
   const result = getQuizResult(answers)
-  const routineNote = `Você quer reservar ${result.time.replace(/[.!?]+$/, '').toLowerCase()} e apontou “${result.obstacle.replace(/[.!?]+$/, '')}” como desafio. Antes de decidir, confira ${result.nextStep.replace(/[.!?]+$/, '').toLowerCase()} e avalie se o programa encaixa na sua rotina.`
 
   useEffect(() => {
     return () => {
@@ -182,7 +181,7 @@ function App() {
               <div className="result-detail"><span>Frequência desejada</span><strong>{result.frequency}</strong></div>
               <div className="result-detail"><span>Desafio que quer contornar</span><strong>{result.obstacle}</strong></div>
             </div>
-            <div className="program-highlight"><span className="highlight-icon"><Heart size={19} /></span><span><strong>Uma dica para sua decisão</strong><small>{routineNote}</small></span><MoveUpRight className="highlight-arrow" size={19} /></div>
+            <div className="program-highlight"><span className="highlight-icon"><Heart size={19} /></span><span><strong>Seu próximo passo</strong><small>Você quer conferir {result.nextStep.toLowerCase()} Na página da Cakto, avalie se o programa combina com você antes de continuar.</small></span><MoveUpRight className="highlight-arrow" size={19} /></div>
             <a
               className="primary-button checkout-button"
               href={buildCheckoutUrl()}
@@ -190,9 +189,9 @@ function App() {
               rel="noopener noreferrer"
               onClick={() => trackPixelEvent('CheckoutClick', { content_name: 'Pilates na Parede' })}
             >
-              VER CONTEÚDO E CONDIÇÕES <ArrowRight size={18} />
+              QUERO CONHECER O PROGRAMA <ArrowRight size={18} />
             </a>
-            <p className="result-note">Você seguirá para o checkout da Cakto em uma nova aba. A compra só é concluída se você decidir finalizar o pagamento.</p>
+            <p className="result-note">A Cakto abrirá em uma nova aba. A compra só é concluída se você decidir finalizar o pagamento.</p>
             <button className="restart-button" onClick={restart}><ArrowLeft size={14} /> Refazer o quiz</button>
           </div>
         </section>
