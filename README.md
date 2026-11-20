@@ -32,9 +32,11 @@ Eventos previstos:
 - `QuizStart` ao iniciar.
 - `QuizStepComplete` a cada etapa respondida, com somente o número da pergunta.
 - `QuizComplete` ao concluir as oito perguntas.
-- `InitiateCheckout` no clique para abrir o checkout.
+- `CheckoutClick` quando a pessoa clica para abrir a Cakto.
+- `InitiateCheckout` quando o checkout da Cakto é aberto, se o Pixel estiver configurado no produto.
+- `Purchase` quando a Cakto confirma o pagamento, se o Pixel estiver configurado no produto.
 
-O clique no checkout não significa venda. Configure a medição de `Purchase` na própria Cakto ou por uma integração que confirme o pagamento aprovado. Nunca dispare uma compra só porque alguém clicou no botão.
+O clique no checkout não significa que o checkout foi aberto nem que ocorreu uma venda. Configure o Pixel na própria Cakto para registrar a abertura do checkout e o pagamento aprovado. Para registrar Pix pago depois da emissão, a Cakto pode exigir seu token da API de Conversões. Nunca dispare uma compra só porque alguém clicou no botão.
 
 ## Atribuição das campanhas na Cakto
 

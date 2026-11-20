@@ -187,7 +187,7 @@ function App() {
               href={buildCheckoutUrl()}
               target="_blank"
               rel="noopener noreferrer"
-              onClick={() => trackPixelEvent('InitiateCheckout', { content_name: 'Pilates na Parede' })}
+              onClick={() => trackPixelEvent('CheckoutClick', { content_name: 'Pilates na Parede' })}
             >
               VER CONTEÚDO E CONDIÇÕES <ArrowRight size={18} />
             </a>
