@@ -15,6 +15,7 @@ function App() {
   const question = questions[questionIndex]
   const selectedOption = answers[questionIndex]
   const result = getQuizResult(answers)
+  const routineNote = `Você quer reservar ${result.time.replace(/[.!?]+$/, '').toLowerCase()} e apontou “${result.obstacle.replace(/[.!?]+$/, '')}” como desafio. Antes de decidir, confira ${result.nextStep.replace(/[.!?]+$/, '').toLowerCase()} e avalie se o programa encaixa na sua rotina.`
 
   useEffect(() => {
     return () => {
@@ -181,7 +182,7 @@ function App() {
               <div className="result-detail"><span>Frequência desejada</span><strong>{result.frequency}</strong></div>
               <div className="result-detail"><span>Desafio que quer contornar</span><strong>{result.obstacle}</strong></div>
             </div>
-            <div className="program-highlight"><span className="highlight-icon"><Heart size={19} /></span><span><strong>Agora, escolha com informação</strong><small>Antes de decidir, confira {result.nextStep.toLowerCase()}</small></span><MoveUpRight className="highlight-arrow" size={19} /></div>
+            <div className="program-highlight"><span className="highlight-icon"><Heart size={19} /></span><span><strong>Uma dica para sua decisão</strong><small>{routineNote}</small></span><MoveUpRight className="highlight-arrow" size={19} /></div>
             <a
               className="primary-button checkout-button"
               href={buildCheckoutUrl()}
