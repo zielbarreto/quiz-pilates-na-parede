@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { ArrowLeft, ArrowRight, Check, ChevronRight, Heart, Leaf, MoveUpRight, Sparkles } from 'lucide-react'
-import { checkoutUrl, heroImage, imagePath, questions } from './data/quiz'
+import { buildCheckoutUrl, getQuizResult, heroImage, imagePath, questions } from './data/quiz'
 import { trackPixelEvent } from './lib/metaPixel'
 
 type Screen = 'welcome' | 'quiz' | 'complete'
@@ -11,8 +11,10 @@ function App() {
   const [answers, setAnswers] = useState<Record<number, number>>({})
   const [isAdvancing, setIsAdvancing] = useState(false)
   const advanceTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const completedSteps = useRef(new Set<number>())
   const question = questions[questionIndex]
   const selectedOption = answers[questionIndex]
+  const result = getQuizResult(answers)
 
   useEffect(() => {
     return () => {
@@ -25,8 +27,8 @@ function App() {
   }, [screen, questionIndex])
 
   const beginQuiz = () => {
+    completedSteps.current.clear()
     setScreen('quiz')
-    trackPixelEvent('ViewContent', { content_name: 'Quiz Pilates na Parede' })
     trackPixelEvent('QuizStart')
   }
 
@@ -39,6 +41,13 @@ function App() {
   const chooseOption = (optionIndex: number) => {
     if (isAdvancing) return
     setAnswers((previous) => ({ ...previous, [questionIndex]: optionIndex }))
+
+    const completedQuestion = questionIndex + 1
+    if (!completedSteps.current.has(completedQuestion)) {
+      completedSteps.current.add(completedQuestion)
+      trackPixelEvent('QuizStepComplete', { question_number: completedQuestion })
+    }
+
     setIsAdvancing(true)
     advanceTimer.current = setTimeout(() => {
       if (questionIndex === questions.length - 1) {
@@ -62,6 +71,7 @@ function App() {
 
   const restart = () => {
     if (advanceTimer.current) clearTimeout(advanceTimer.current)
+    completedSteps.current.clear()
     setAnswers({})
     setQuestionIndex(0)
     setIsAdvancing(false)
@@ -75,21 +85,22 @@ function App() {
           <span className="brand-mark" aria-hidden="true"><Leaf size={18} strokeWidth={1.8} /></span>
           <span className="brand-name">movimento<span>em casa</span></span>
         </a>
-        <div className="header-note"><span className="header-dot" /> seu momento, no seu ritmo</div>
+        <div className="header-note"><span className="header-dot" /> seu momento, seu ritmo</div>
       </header>
 
       {screen === 'welcome' && (
         <section className="welcome-stage" aria-labelledby="welcome-title">
           <div className="welcome-copy">
-            <span className="eyebrow"><Sparkles size={14} /> UM CONVITE PARA VOCÊ</span>
-            <h1 id="welcome-title">VOCÊ ESTÁ CUIDANDO DE SI MESMA <em>COMO GOSTARIA?</em></h1>
-            <p className="welcome-subtitle">Descubra como o Pilates na Parede pode ajudar você a incluir mais movimento e cuidado na sua rotina, sem precisar sair de casa.</p>
+            <span className="eyebrow"><Sparkles size={14} /> QUIZ GRATUITO · PILATES NA PAREDE</span>
+            <h1 id="welcome-title">Encontre um jeito mais simples de se movimentar <em>em casa.</em></h1>
+            <p className="welcome-subtitle">Responda a 8 perguntas rápidas e descubra um ponto de partida que combina com seu momento, seu tempo e sua rotina.</p>
             <button className="primary-button welcome-button" onClick={beginQuiz}>
-              QUERO COMEÇAR <ArrowRight size={18} />
+              DESCOBRIR MEU PONTO DE PARTIDA <ArrowRight size={18} />
             </button>
             <div className="welcome-points" aria-label="Sobre o quiz">
               <span><Check size={15} /> 8 perguntas rápidas</span>
-              <span><Heart size={15} /> Responda no seu tempo</span>
+              <span><Heart size={15} /> Resultado na hora</span>
+              <span><Check size={15} /> Sem cadastro</span>
             </div>
           </div>
           <div className="welcome-visual">
@@ -101,7 +112,7 @@ function App() {
             <span className="hero-orbit orbit-two" />
             <span className="hero-caption">movimento leve<br />feito em casa</span>
           </div>
-          <div className="welcome-bottomline"><span>01 — CUIDADO</span><span className="bottomline-rule" /><span>UM PASSO DE CADA VEZ</span></div>
+          <div className="welcome-bottomline"><span>SEU MOMENTO</span><span className="bottomline-rule" /><span>UM PASSO DE CADA VEZ</span></div>
         </section>
       )}
 
@@ -114,21 +125,21 @@ function App() {
             <span className="question-count">PERGUNTA <strong>{questionIndex + 1}</strong> <i>DE</i> {questions.length}</span>
           </div>
           <div className="progress-track" role="progressbar" aria-label="Progresso do quiz" aria-valuemin={0} aria-valuemax={questions.length} aria-valuenow={questionIndex + 1}>
-            <span className="progress-fill" style={{ width: `${((questionIndex + 1) / questions.length) * 100}%` }} />
+            <span className="progress-fill" style={{ width: ((questionIndex + 1) / questions.length) * 100 + '%' }} />
           </div>
 
           <div className="question-layout question-enter" key={questionIndex}>
             <div className="question-content">
-              <span className="eyebrow question-eyebrow"><span className="eyebrow-number">0{questionIndex + 1}</span> REFLEXÃO</span>
+              <span className="eyebrow question-eyebrow"><span className="eyebrow-number">0{questionIndex + 1}</span> SUA ROTINA</span>
               <h2 id="question-title">{question.prompt}</h2>
-              <p className="question-hint">Escolha a opção que mais combina com você.</p>
+              <p className="question-hint">Não existe resposta certa. Escolha a opção que mais combina com você.</p>
               <div className="options-list" role="group" aria-label="Alternativas de resposta">
                 {question.options.map((option, optionIndex) => {
                   const isSelected = selectedOption === optionIndex
                   return (
                     <button
                       key={option.text}
-                      className={`option-card${isSelected ? ' is-selected' : ''}`}
+                      className={isSelected ? 'option-card is-selected' : 'option-card'}
                       onClick={() => chooseOption(optionIndex)}
                       aria-pressed={isSelected}
                       disabled={isAdvancing}
@@ -142,14 +153,14 @@ function App() {
                   )
                 })}
               </div>
-              <p className="privacy-note"><Heart size={13} /> Esta é uma conversa com você mesma. Responda com sinceridade e leveza.</p>
+              <p className="privacy-note"><Heart size={13} /> Não pedimos seu nome ou contato. Suas escolhas não são enviadas à Meta; medimos apenas o avanço pelas etapas.</p>
             </div>
             <figure className="question-visual">
               <img src={imagePath(question.imageId)} alt={question.imageAlt} loading="eager" decoding="async" onError={(event) => { event.currentTarget.style.visibility = 'hidden' }} />
               <figcaption><span className="photo-line" /> MOVIMENTO NO SEU RITMO</figcaption>
             </figure>
           </div>
-          <div className="quiz-footer"><span>UM PASSO DE CADA VEZ</span><span className="footer-dot" /><span>VOCÊ MERECE ESSE MOMENTO</span></div>
+          <div className="quiz-footer"><span>UM PASSO DE CADA VEZ</span><span className="footer-dot" /><span>SEM PRESSA, NO SEU RITMO</span></div>
         </section>
       )}
 
@@ -157,23 +168,31 @@ function App() {
         <section className="complete-stage" aria-labelledby="complete-title">
           <div className="complete-image">
             <img src={imagePath('36917074')} alt="Mulher adulta praticando exercícios em casa" loading="eager" decoding="async" onError={(event) => { event.currentTarget.style.visibility = 'hidden' }} />
-            <div className="complete-image-label"><Leaf size={16} /> UM NOVO CAPÍTULO COMEÇA COM VOCÊ</div>
+            <div className="complete-image-label"><Leaf size={16} /> UM PASSO POSSÍVEL COMEÇA COM VOCÊ</div>
           </div>
           <div className="complete-copy">
-            <span className="eyebrow"><span className="complete-check"><Check size={13} /></span> SEU QUIZ FOI CONCLUÍDO</span>
-            <h1 id="complete-title">SEU PRÓXIMO PASSO PODE <em>COMEÇAR HOJE!</em></h1>
-            <p>Você não precisa esperar ter mais tempo ou uma rotina perfeita para começar a cuidar de si mesma. O Pilates na Parede apresenta uma alternativa prática para incluir exercícios em casa, respeitando seu ritmo e sua disponibilidade.</p>
-            <div className="program-highlight"><span className="highlight-icon"><Heart size={19} /></span><span><strong>Conheça o programa Pilates na Parede</strong><small>e veja como começar.</small></span><MoveUpRight className="highlight-arrow" size={19} /></div>
+            <span className="eyebrow"><span className="complete-check"><Check size={13} /></span> SEU RESULTADO</span>
+            <h1 id="complete-title">Seu ponto de partida <em>para este momento.</em></h1>
+            <h2 className="result-title">{result.title}</h2>
+            <p>{result.description}</p>
+            <div className="result-details" aria-label="Resumo das suas respostas">
+              <div className="result-detail"><span>Seu foco</span><strong>{result.focus}</strong></div>
+              <div className="result-detail"><span>Tempo que gostaria de reservar</span><strong>{result.time}</strong></div>
+              <div className="result-detail"><span>Frequência desejada</span><strong>{result.frequency}</strong></div>
+              <div className="result-detail"><span>Desafio que quer contornar</span><strong>{result.obstacle}</strong></div>
+            </div>
+            <div className="program-highlight"><span className="highlight-icon"><Heart size={19} /></span><span><strong>Agora, escolha com informação</strong><small>Antes de decidir, confira {result.nextStep.toLowerCase()}</small></span><MoveUpRight className="highlight-arrow" size={19} /></div>
             <a
               className="primary-button checkout-button"
-              href={checkoutUrl}
+              href={buildCheckoutUrl()}
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => trackPixelEvent('InitiateCheckout', { content_name: 'Pilates na Parede' })}
             >
-              QUERO CONHECER O PILATES NA PAREDE <ArrowRight size={18} />
+              VER CONTEÚDO E CONDIÇÕES <ArrowRight size={18} />
             </a>
-            <button className="restart-button" onClick={restart}><ArrowLeft size={14} /> Voltar ao início</button>
+            <p className="result-note">Você seguirá para o checkout da Cakto em uma nova aba. A compra só é concluída se você decidir finalizar o pagamento.</p>
+            <button className="restart-button" onClick={restart}><ArrowLeft size={14} /> Refazer o quiz</button>
           </div>
         </section>
       )}
@@ -187,4 +206,3 @@ function App() {
 }
 
 export default App
-
