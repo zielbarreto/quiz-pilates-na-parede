@@ -62,7 +62,7 @@ h1, h2, p, figure { margin: 0; }
 .hero-orbit { position: absolute; border: 1px solid rgba(108, 155, 117, .37); border-radius: 50%; z-index: 0; }
 .orbit-one { width: 126px; height: 126px; right: -15px; top: 36px; }
 .orbit-two { width: 82px; height: 82px; right: 7px; top: 58px; }
-.hero-caption { position: absolute; right: -39px; bottom: 69px; z-index: 2; color: var(--forest); font-family: "DM Serif Display", Georgia, serif; font-size: 17px; line-height: 1.15; font-style: italic; }
+.hero-caption { position: absolute; right: 35px; bottom: 49px; z-index: 2; color: var(--forest); font-family: "DM Serif Display", Georgia, serif; font-size: 17px; line-height: 1.15; font-style: italic; }
 .welcome-bottomline { position: absolute; bottom: 24px; left: clamp(22px, 9.7vw, 156px); right: clamp(22px, 9.7vw, 156px); display: flex; gap: 24px; align-items: center; color: #68776c; font-size: 10px; font-weight: 600; letter-spacing: .12em; }
 .bottomline-rule { height: 1px; width: 48px; background: #c6a66b; }
 
@@ -160,7 +160,7 @@ h1, h2, p, figure { margin: 0; }
   .hero-image-frame { height: min(102vw, 440px); min-height: 315px; border-radius: 48% 48% 5px 5px / 30% 30% 5px 5px; }
   .orbit-one { width: 85px; height: 85px; right: -1px; top: 10px; }
   .orbit-two { width: 57px; height: 57px; right: 13px; top: 24px; }
-  .hero-caption { right: -8px; bottom: 42px; font-size: 14px; }
+  .hero-caption { right: 28px; bottom: 34px; font-size: 14px; }
   .welcome-bottomline { display: none; }
   .quiz-stage { width: calc(100% - 36px); min-height: auto; padding: 20px 0 32px; }
   .quiz-topline { margin-bottom: 12px; }
