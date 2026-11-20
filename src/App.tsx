@@ -147,7 +147,6 @@ function App() {
             <figure className="question-visual">
               <img src={imagePath(question.imageId)} alt={question.imageAlt} loading="eager" decoding="async" onError={(event) => { event.currentTarget.style.visibility = 'hidden' }} />
               <figcaption><span className="photo-line" /> MOVIMENTO NO SEU RITMO</figcaption>
-              <span className="visual-stamp"><Leaf size={20} /><span>um novo<br />começo</span></span>
             </figure>
           </div>
           <div className="quiz-footer"><span>UM PASSO DE CADA VEZ</span><span className="footer-dot" /><span>VOCÊ MERECE ESSE MOMENTO</span></div>
@@ -188,3 +187,4 @@ function App() {
 }
 
 export default App
+
