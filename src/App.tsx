@@ -106,7 +106,7 @@ function App() {
           <div className="welcome-visual">
             <div className="hero-image-frame">
               <img src={imagePath(heroImage.id)} alt={heroImage.alt} fetchPriority="high" decoding="async" onError={(event) => { event.currentTarget.style.visibility = 'hidden' }} />
-              <div className="image-tag"><span className="tag-icon"><Heart size={15} fill="currentColor" /></span><span>um espaço para você</span></div>
+              
             </div>
             <span className="hero-orbit orbit-one" />
             <span className="hero-orbit orbit-two" />
