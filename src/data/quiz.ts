@@ -97,8 +97,8 @@ export const questions: QuizQuestion[] = [
   },
   {
     prompt: 'O que mais combina com a forma como você gostaria de se movimentar?',
-    imageId: '8401112',
-    imageAlt: 'Mulher praticando alongamento com apoio de uma parede',
+    imageId: 'flow-wall-pilates-question',
+    imageAlt: 'Mulher adulta praticando alongamento lateral com apoio da parede em casa',
     options: [
       { text: 'Praticar em casa, no meu próprio ritmo.', imageId: '8520353', imageAlt: 'Mulher em roupa esportiva alongando com apoio de uma parede' },
       { text: 'Ter flexibilidade para escolher o horário.', imageId: '5132292', imageAlt: 'Mulher fazendo alongamento de perna junto à parede' },
