@@ -40,8 +40,8 @@ export function buildCheckoutUrl() {
 export const imagePath = (id: string) => `/images/${id}.jpg`
 
 export const heroImage = {
-  id: '8173427',
-  alt: 'Mulher praticando exercícios em um tapete em sua sala de estar',
+  id: 'flow-wall-pilates-hero',
+  alt: 'Mulher praticando alongamento com apoio da parede em casa',
 }
 
 export const questions: QuizQuestion[] = [
